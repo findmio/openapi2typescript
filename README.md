@@ -1,3 +1,10 @@
+## 使用须知
+
+此仓库为魔改版，主要改动点
+
+- 修改函数名为 请求方式-请求路径
+
+
 ## 介绍
 [![GitHub Repo stars](https://img.shields.io/github/stars/chenshuai2144/openapi2typescript?style=social)](https://github.com/chenshuai2144/openapi2typescript)
 [![npm (scoped)](https://img.shields.io/npm/v/@umijs/openapi)](https://www.npmjs.com/package/@umijs/openapi)
