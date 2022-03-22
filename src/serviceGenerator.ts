@@ -332,10 +332,6 @@ class ServiceGenerator {
           requestImportStatement: this.config.requestImportStatement,
           disableTypeCheck: false,
           ...tp,
-          list: tp.list.map(item => ({
-            ...item,
-            customName: (item.method + item.path).replace(/\//g, '_'),
-          }))
         },
       );
       prettierError.push(hasError);
@@ -370,8 +366,7 @@ class ServiceGenerator {
 
   public getServiceTP() {
     // 获取路径相同部分
-    const pathBasePrefix = this.getBasePrefix(Object.keys(this.openAPIData.paths));
-
+    // const pathBasePrefix = this.getBasePrefix(Object.keys(this.openAPIData.paths));
     return Object.keys(this.apiData)
       .map((tag) => {
         // functionName tag 级别防重
@@ -398,13 +393,14 @@ class ServiceGenerator {
               if ((body && (body.mediaType || '').includes('form')) || file) {
                 formData = true;
               }
-
-              let functionName =
-                this.config.hook && this.config.hook.customFunctionName
-                  ? this.config.hook.customFunctionName(newApi)
-                  : newApi.operationId
-                    ? this.resolveFunctionName(stripDot(newApi.operationId), newApi.method)
-                    : newApi.method + this.genDefaultFunctionName(newApi.path, pathBasePrefix);
+              let functionName = (newApi.method + newApi.path).replace(/\//g, '_');
+              newApi.operationId = functionName;
+              // let functionName =
+              //   this.config.hook && this.config.hook.customFunctionName
+              //     ? this.config.hook.customFunctionName(newApi)
+              //     : newApi.operationId
+              //       ? this.resolveFunctionName(stripDot(newApi.operationId), newApi.method)
+              //       : newApi.method + this.genDefaultFunctionName(newApi.path, pathBasePrefix);
 
               if (functionName && tmpFunctionRD[functionName]) {
                 functionName = `${functionName}_${(tmpFunctionRD[functionName] += 1)}`;
@@ -486,7 +482,7 @@ class ServiceGenerator {
                 // prefix 变量
                 return `$\{${prefix}}${formattedPath}`;
               };
-
+              
               return {
                 ...newApi,
                 functionName,
@@ -721,7 +717,7 @@ class ServiceGenerator {
         if (!operationObject) {
           return;
         }
-
+        operationObject.operationId = (method + p).replace(/\//g, '_');
         const props = [];
         if (operationObject.parameters) {
           operationObject.parameters.forEach((parameter: any) => {
@@ -744,7 +740,6 @@ class ServiceGenerator {
             });
           });
         }
-
         if (props.length > 0) {
           data && data.push([
             {
