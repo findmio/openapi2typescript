@@ -1,13 +1,13 @@
 {
-  "name": "@umijs/openapi",
+  "name": "@findmio/openapi",
   "version": "1.4.2",
   "description": "",
   "repository": {
     "type": "git",
-    "url": "git+git@github.com:chenshuai2144/openapi2typescript.git"
+    "url": "git+git@github.com:findmio/openapi2typescript.git"
   },
   "license": "MIT",
-  "author": "chenshuai2144",
+  "author": "findmio",
   "main": "dist/index.js",
   "files": [
     "dist",
